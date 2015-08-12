@@ -55,15 +55,10 @@ except TwythonError as e:
         print e
 max.close()
 mxd = None
-for i in reversed(search_results["statuses"]):
-        mxd=i["id_str"]
-if mxd:
-        max=open(file,"w")
-        max.write(mxd)
-        max.close()
 
 try:
         for tweet in reversed(search_results["statuses"]):
+                mxd = tweet["id_str"]
                 answer = wolfram_alpha(tweet["text"])
                 if answer!='x':
                         reply_id = tweet["id_str"]
@@ -73,3 +68,8 @@ try:
                         time.sleep(5)
 except TwythonError as e:
         print e
+
+if mxd:
+        max=open(file,"w")
+        max.write(mxd)
+        max.close()
