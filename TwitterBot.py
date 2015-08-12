@@ -26,9 +26,10 @@ app_id = "*****YOUR WOLFRAMALPHA APP ID******"
 #Wolfram Object
 client = wolframalpha.Client(app_id)
 
+#File to store the last tweet's id
 file = "/twitterBot/max_id.txt"
 
-#Asking Wolfram
+#Function to ask Wolframalpha and return the answer
 def wolfram_alpha(str):
         str=str.lower()
         str=str.replace("@berry_bots"," ")
@@ -51,13 +52,14 @@ def wolfram_alpha(str):
                 text = 'x'
         return text;
 
-#Searching Twitter for Questions
+#Reading file for last tweet's id
 max=open(file,"r")
 max.seek(0,0)
 mid=max.read(18)
 
 search_results = None
 
+#Searching Twitter for Questions
 try:
         search_results = twitter.search(q="@berry_bots",lang="en",count=5,since_id=str(mid))
 
@@ -68,6 +70,7 @@ max.close()
 
 mxd = None
 
+#Traversing the tweets searched and tweeting back the answers
 try:
         if search_results:
                 for tweet in reversed(search_results["statuses"]):
@@ -93,6 +96,7 @@ try:
 except TwythonError as e:
         print e
 
+#Writing the id if the last replied tweet into the file
 if mxd:
         max=open(file,"w")
         max.write(mxd)
